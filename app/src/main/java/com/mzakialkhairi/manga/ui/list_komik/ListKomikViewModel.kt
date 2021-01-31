@@ -1,11 +1,13 @@
-package com.mzakialkhairi.manga.ui.list_manga
+package com.mzakialkhairi.manga.ui.list_komik
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mzakialkhairi.manga.model.ListPopularResponse
-import com.mzakialkhairi.manga.model.Manga
+import com.mzakialkhairi.manga.model.Komik
+import com.mzakialkhairi.manga.model.States
 import com.mzakialkhairi.manga.services.RetrofitInstance
+import com.mzakialkhairi.manga.utils.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -14,27 +16,22 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ListMangaViewModel : ViewModel() {
+class ListKomikViewModel : ViewModel() {
 
-    private val _listPopular = MutableLiveData<ArrayList<Manga>>()
-    val listPopular : LiveData<ArrayList<Manga>>
+    private val _listPopular = MutableLiveData<ArrayList<Komik>>()
+    val listPopular : LiveData<ArrayList<Komik>>
     get() = _listPopular
 
-    private val _state = MutableLiveData<String>()
-    val state : LiveData<String>
-    get() = _state
+    private var state : SingleLiveEvent<States> = SingleLiveEvent()
 
     private var job = Job()
     private val uiScope = CoroutineScope(job + Dispatchers.Main)
 
-    init {
-        getListPopular()
-    }
-
-    private fun getListPopular(){
+    fun getListPopular(page : Int){
         uiScope.launch {
             try {
-                RetrofitInstance.INSTANCE_API.getPopularList().enqueue(object :
+                state.value = States.isLoading(true)
+                RetrofitInstance.INSTANCE_API.getPopularList(page).enqueue(object :
                     Callback<ListPopularResponse> {
                     override fun onResponse(
                         call: Call<ListPopularResponse>,
@@ -42,24 +39,27 @@ class ListMangaViewModel : ViewModel() {
                     ) {
                         val responseBody = response.body()!!.manga_list
                         if (responseBody.isNotEmpty()){
-                            _listPopular.value = responseBody as ArrayList<Manga>
+                            _listPopular.value = responseBody as ArrayList<Komik>
+                            state.value = States.isLoading(false)
                         }
-                        else {
-                            _state.value = "List Kosong"
-                        }
+
                     }
 
                     override fun onFailure(call: Call<ListPopularResponse>, t: Throwable) {
-                        _state.value = t.message
+                        state.value = States.error(t.message.toString())
+                        state.value = States.isLoading(false)
                     }
 
                 })
             }
             catch (t : Throwable){
-                _state.value = t.message
+                state.value = States.error(t.message.toString())
+                state.value = States.isLoading(false)
             }
         }
     }
+
+    fun getStates () = state
 
     override fun onCleared() {
         super.onCleared()

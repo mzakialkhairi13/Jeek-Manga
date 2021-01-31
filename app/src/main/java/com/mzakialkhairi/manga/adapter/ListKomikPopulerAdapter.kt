@@ -6,16 +6,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mzakialkhairi.manga.R
-import com.mzakialkhairi.manga.databinding.ItemListMangaLayoutBinding
-import com.mzakialkhairi.manga.model.Manga
-import kotlinx.android.synthetic.main.item_list_manga_layout.view.*
+import com.mzakialkhairi.manga.databinding.ItemListKomikLayoutBinding
+import com.mzakialkhairi.manga.model.Komik
+import com.mzakialkhairi.manga.utils.interfaces.OnKomikClicked
+import kotlinx.android.synthetic.main.item_list_komik_layout.view.*
 
-class ListMangaPopulerAdapter(private val list : ArrayList<Manga>) : RecyclerView.Adapter<ListMangaPopulerAdapter.ViewHolder>(){
+class ListKomikPopulerAdapter(private val list : ArrayList<Komik>) : RecyclerView.Adapter<ListKomikPopulerAdapter.ViewHolder>(){
 
-    inner class ViewHolder (itemView : ItemListMangaLayoutBinding) : RecyclerView.ViewHolder(itemView.root)
+    var listener : OnKomikClicked? = null
+
+    inner class ViewHolder (itemView : ItemListKomikLayoutBinding) : RecyclerView.ViewHolder(itemView.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder (DataBindingUtil.inflate(
-        LayoutInflater.from(parent.context), R.layout.item_list_manga_layout , parent,false))
+        LayoutInflater.from(parent.context), R.layout.item_list_komik_layout , parent,false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
@@ -23,6 +26,10 @@ class ListMangaPopulerAdapter(private val list : ArrayList<Manga>) : RecyclerVie
             itemPopular_tvName.text = list[position].title
             itemPopular_tvKategori.text = list[position].type
             itemPopular_tvUpdate.text = list[position].upload_on
+        }
+
+        holder.itemView.itemPopular_container.setOnClickListener {
+            listener?.onKomikIsCLicked(it,list[position])
         }
     }
 

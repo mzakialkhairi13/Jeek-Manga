@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.mzakialkhairi.manga.R
 import com.mzakialkhairi.manga.ui.home.HomeFragment
 import com.mzakialkhairi.manga.ui.list_genre.ListGenreFragment
-import com.mzakialkhairi.manga.ui.list_manga.ListMangaFragment
+import com.mzakialkhairi.manga.ui.list_komik.ListKomikFragment
 import com.mzakialkhairi.manga.ui.profile.ProfileFragment
 
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
@@ -23,7 +23,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : 
         var fragment: Fragment? = null
         when (position) {
             0 -> fragment = HomeFragment()
-            1 -> fragment = ListMangaFragment()
+            1 -> fragment = ListKomikFragment()
             2 -> fragment = ListGenreFragment()
             3 -> fragment = ProfileFragment()
 

@@ -25,8 +25,8 @@ android {
     }
 
     dataBinding {
-         //noinspection DataBindingWithoutKapt
-         enabled = true
+        //noinspection DataBindingWithoutKapt
+        enabled = true
     }
 
     compileOptions {

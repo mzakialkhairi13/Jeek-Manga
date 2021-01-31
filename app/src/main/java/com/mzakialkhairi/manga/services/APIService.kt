@@ -1,15 +1,17 @@
 package com.mzakialkhairi.manga.services
 
+import com.mzakialkhairi.manga.model.DetailKomikResponse
 import com.mzakialkhairi.manga.model.ListPopularResponse
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface APIService {
 
-    @GET("popular/1")
-    fun getPopularList()  : Call<ListPopularResponse>
+    @GET("manga/popular/{page}")
+    fun getPopularList(@Path("page") id : Int)  : Call<ListPopularResponse>
 
+    @GET("manga/detail/{endpoint}")
+    fun getDetailKomik(@Path ("endpoint") endpoint : String ) : Call<DetailKomikResponse>
 
 }

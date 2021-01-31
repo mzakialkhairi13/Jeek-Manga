@@ -6,4 +6,6 @@
     <color name="colorPrimaryGentle">#5fa8d3</color>
     <color name="colorPrimaryLight">#cae9ff</color>
     <color name="colorSemiGreen">#bee9e8</color>
+    <color name="colorGreen">#2b9348</color>
+    <color name="colorYellow">#f3722c</color>
 </resources>

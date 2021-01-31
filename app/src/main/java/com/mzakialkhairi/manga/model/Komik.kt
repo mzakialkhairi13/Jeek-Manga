@@ -1,6 +1,6 @@
 package com.mzakialkhairi.manga.model
 
-data class Manga(
+data class Komik(
     val endpoint: String,
     val thumb: String,
     val title: String,

@@ -3,10 +3,12 @@
 <layout>
 
     <LinearLayout
+        android:id="@+id/itemPopular_container"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
+        android:paddingBottom="2dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -33,6 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/amiko_bold"
+                    android:maxLines="2"
                     android:textSize="18sp"
                     android:text="Name"/>
 
