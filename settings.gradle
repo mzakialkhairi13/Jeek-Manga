@@ -1,0 +1,2 @@
+rootProject.name='Jeek Manga'
+include ':app'

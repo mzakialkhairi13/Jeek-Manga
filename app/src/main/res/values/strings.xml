@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Jeek Manga</string>
+
+    <string name="tab_text_1">Home</string>
+    <string name="tab_text_2">Popular</string>
+    <string name="tab_text_3">Genre</string>
+    <string name="tab_text_4">Profile</string>
+
+</resources>
