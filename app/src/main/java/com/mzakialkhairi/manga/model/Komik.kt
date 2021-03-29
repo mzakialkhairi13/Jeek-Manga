@@ -5,5 +5,7 @@ data class Komik(
     val thumb: String,
     val title: String,
     val type: String,
-    val upload_on: String
+    val upload_on: String ?= null,
+    val updated_on: String ?= null
+
 )

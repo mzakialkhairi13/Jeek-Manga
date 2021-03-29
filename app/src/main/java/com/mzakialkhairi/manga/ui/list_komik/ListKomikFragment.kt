@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mzakialkhairi.manga.R
 import com.mzakialkhairi.manga.adapter.ListKomikPopulerAdapter
@@ -17,42 +18,64 @@ import com.mzakialkhairi.manga.databinding.ListKomikFragmentBinding
 import com.mzakialkhairi.manga.model.Komik
 import com.mzakialkhairi.manga.model.States
 import com.mzakialkhairi.manga.ui.detail_komik.DetailKomikActivity
-import com.mzakialkhairi.manga.utils.interfaces.OnKomikClicked
+import com.mzakialkhairi.manga.listeners.OnKomikClicked
 
 
 class ListKomikFragment : Fragment(), OnKomikClicked {
 
-
     private lateinit var viewModel: ListKomikViewModel
     private lateinit var binding : ListKomikFragmentBinding
-    private var page : Int = 1
+    private lateinit var adapter : ListKomikPopulerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate( inflater,R.layout.list_komik_fragment, container, false)
 
         viewModel = ViewModelProviders.of(this).get(ListKomikViewModel::class.java)
 
-        val rv = binding.listmangaRvPopuler
-        rv.layoutManager = LinearLayoutManager(this.context)
-        rv.setHasFixedSize(true)
+        buttonHandle()
+        setupUI()
 
-        viewModel.getStates().observe(viewLifecycleOwner, Observer { handleState(it) })
+        viewModel.getStates().observe(viewLifecycleOwner, { handleState(it) })
+        getListPropularViewModel(viewModel.page)
 
-        getListPropularViewModel(page)
-
-        binding.next.setOnClickListener {
-            page ++
-            getListPropularViewModel(page)
-        }
 
         return binding.root
     }
 
     private fun showToast(msg : String){
         Toast.makeText(context,msg,Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setupUI(){
+        val rv = binding.listmangaRvPopuler
+        rv.layoutManager = LinearLayoutManager(this.context)
+        rv.setHasFixedSize(true)
+        rv.addItemDecoration(
+            DividerItemDecoration(
+                rv.context,
+                (rv.layoutManager as LinearLayoutManager).orientation
+            )
+        )
+        adapter = ListKomikPopulerAdapter(arrayListOf())
+        rv.adapter = adapter
+        adapter.listener = this
+
+
+        binding.next.setOnClickListener {
+            viewModel.page++
+            getListPropularViewModel(viewModel.page)
+            buttonHandle()
+        }
+
+        binding.prev.setOnClickListener {
+            viewModel.page--
+            getListPropularViewModel(viewModel.page)
+            buttonHandle()
+        }
+
     }
 
     override fun onKomikIsCLicked(view: View, komik: Komik) {
@@ -78,30 +101,43 @@ class ListKomikFragment : Fragment(), OnKomikClicked {
         }
     }
 
+    private fun buttonHandle(){
+        if (viewModel.page == 1){
+            binding.prev.visibility = View.GONE
+        }
+        else {
+            binding.prev.visibility = View.VISIBLE
+        }
+    }
+
 
     fun getListPropularViewModel(page :Int){
         viewModel.getListPopular(page)
-        viewModel.listPopular.observe(viewLifecycleOwner, Observer {
-            val rv = binding.listmangaRvPopuler
-            val adapter = ListKomikPopulerAdapter(it)
-            rv.adapter = adapter
-            adapter.listener = this
+        viewModel.listPopular.observe(viewLifecycleOwner,  {
+            showListKomik(it)
             showLoading(false)
         })
+    }
 
-
+    private fun showListKomik(list : List<Komik>){
+        adapter.apply {
+          addList(list)
+          notifyDataSetChanged()
+        }
     }
 
     private fun showLoading (state : Boolean){
         if (state){
-            binding.listMangaContainer.visibility = View.GONE
             binding.detailKomikProgressBar.visibility = View.VISIBLE
-            binding.next.text = "..cotto matte.."
+            binding.listMangaContainer.visibility = View.GONE
+            binding.prev.isEnabled = false
+            binding.next.isEnabled = false
         }
         else{
-            binding.listMangaContainer.visibility = View.VISIBLE
             binding.detailKomikProgressBar.visibility = View.GONE
-            binding.next.text = "Selanjutnya ke " +(page+1).toString()
+            binding.listMangaContainer.visibility = View.VISIBLE
+            binding.prev.isEnabled = true
+            binding.next.isEnabled = true
         }
     }
 

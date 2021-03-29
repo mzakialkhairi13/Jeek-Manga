@@ -8,11 +8,10 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.HomeFragment">
 
-        <ImageView
-            android:id="@+id/home_ivBanner"
+        <com.synnapps.carouselview.CarouselView
+            android:id="@+id/home_carousel"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -22,11 +21,47 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/amiko_semibold"
-            android:text="Manga Populer"
+            android:fontFamily="@font/amiko_bold"
+            android:text="@string/manga_populer"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_ivBanner" />
+            app:layout_constraintTop_toBottomOf="@+id/home_cariKomik" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/home_cariKomik"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="8dp"
+            android:layout_marginHorizontal="8dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/home_carousel"
+            tools:layout_editor_absoluteX="1dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/ic_baseline_pageview_24"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/amiko_bold"
+                    android:text="Cari komik disini"
+                    app:layout_constraintBottom_toBottomOf="@+id/view"
+                    app:layout_constraintStart_toEndOf="@+id/view"
+                    app:layout_constraintTop_toTopOf="@+id/view" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

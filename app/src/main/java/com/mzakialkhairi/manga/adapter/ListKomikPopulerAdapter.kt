@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.mzakialkhairi.manga.R
 import com.mzakialkhairi.manga.databinding.ItemListKomikLayoutBinding
 import com.mzakialkhairi.manga.model.Komik
-import com.mzakialkhairi.manga.utils.interfaces.OnKomikClicked
+import com.mzakialkhairi.manga.listeners.OnKomikClicked
 import kotlinx.android.synthetic.main.item_list_komik_layout.view.*
 
 class ListKomikPopulerAdapter(private val list : ArrayList<Komik>) : RecyclerView.Adapter<ListKomikPopulerAdapter.ViewHolder>(){
@@ -34,5 +34,12 @@ class ListKomikPopulerAdapter(private val list : ArrayList<Komik>) : RecyclerVie
     }
 
     override fun getItemCount(): Int = list.size
+
+    fun addList( list: List<Komik>){
+        this.list.apply {
+            clear()
+            addAll(list)
+        }
+    }
 
 }

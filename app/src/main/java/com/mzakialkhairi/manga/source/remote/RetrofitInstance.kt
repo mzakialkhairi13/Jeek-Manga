@@ -1,4 +1,4 @@
-package com.mzakialkhairi.manga.services
+package com.mzakialkhairi.manga.source.remote
 
 import com.mzakialkhairi.manga.utils.Constant
 import com.squareup.moshi.Moshi

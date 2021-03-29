@@ -1,4 +1,4 @@
-package com.mzakialkhairi.manga.utils.interfaces
+package com.mzakialkhairi.manga.listeners
 
 import android.view.View
 import com.mzakialkhairi.manga.model.Komik
