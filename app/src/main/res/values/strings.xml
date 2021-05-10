@@ -9,5 +9,7 @@
     <string name="sinopsis">Sinopsis</string>
     <string name="manga_populer">Manga Populer</string>
     <string name="chapters">Chapters</string>
+    <string name="komik_recommended">Komik Recommended</string>
+    <string name="recommended">Recommended</string>
 
 </resources>

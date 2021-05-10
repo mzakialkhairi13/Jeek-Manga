@@ -6,6 +6,6 @@ data class Komik(
     val title: String,
     val type: String,
     val upload_on: String ?= null,
+    val updload_on: String ?= null,
     val updated_on: String ?= null
-
 )

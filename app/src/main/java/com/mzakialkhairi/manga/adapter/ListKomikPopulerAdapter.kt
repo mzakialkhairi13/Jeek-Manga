@@ -26,6 +26,7 @@ class ListKomikPopulerAdapter(private val list : ArrayList<Komik>) : RecyclerVie
             itemPopular_tvName.text = list[position].title
             itemPopular_tvKategori.text = list[position].type
             itemPopular_tvUpdate.text = list[position].upload_on
+            itemPopular_tvUpdate.text = list[position].updated_on
         }
 
         holder.itemView.itemPopular_container.setOnClickListener {
